@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title>Beer League Baseball Challenge</title>
+
+  <!-- css files -->
+  <link href="css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+  <link href="css/bootstrap-responsive.min.css" type="text/css" rel="stylesheet" />
+  <link href="css/styles.css" type="text/css" rel="stylesheet" />
+
+  <!-- js files -->
+  <script src="js/jquery-1.9.1.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/validatr.min.js"></script>
+  <script src="js/schedule.js"></script>
+  <script src="js/baseball.js"></script>
+
+</head>
+<body>
+
+  <!-- navbar -->
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <ul class="nav">
+          <li><a id="launchTeamModal" href="#teamModal">Create Team</a></li>
+          <li><a href="#resetModal" data-toggle="modal">Reset Season</a></li>
+        </ul>
+        <a id="title" class="brand pull-right" href="#">Beer League Baseball Challenge</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="mainContent" class="container">
+
+    <!-- baseball logo -->
+    <img id="logo" src="img/baseball.png" alt="An image of a baseball." />
+
+    <div id="tableRow" class="row-fluid">
+
+      <!-- standings -->
+      <div id="standings" class="span6">
+        <h3>Standings</h3>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th class="rank">Rank</th>
+              <th class="name">Team</th>
+              <th class="record">Wins</th>
+              <th class="record">Losses</th>
+              <th class="record">Perc.</th>
+              <th class="deleteColumn"></th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- schedule/results -->
+      <div id="schedule" class="span6">
+        <h3>Schedule</h3>
+        <div class="tabbable tabs-left">
+          <!-- default tab -->
+          <ul class="nav nav-tabs">
+            <li id="tab0" class="active"><a href="#pane0" data-toggle="tab">Week 1</a></li>
+          </ul>
+          <div class="tab-content">
+            <!-- default pane -->
+            <div id="pane0" class="tab-pane active">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th class="teams">Teams</th>
+                    <th class="final">Final Score</th>
+                    <th class="report"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+          </div><!-- end .tab-content -->
+        </div><!-- end .tabbable -->
+      </div><!-- end .span6 -->
+
+    </div><!-- end .row-fluid -->
+
+    <!-- max teams alert message -->
+    <div class="row-fluid">
+      <div id="maxTeamsAlert" class="alert alert-error span12">
+        <button id="alertClose" class="close" type="button">&times;</button>
+        Sorry, this league already has <span id="maxTeams"></span> teams!
+      </div>
+    </div>
+
+    <!-- create team alert message -->
+    <div class="row-fluid">
+      <div id="createTeamAlert" class="alert alert-success span12">
+        You need at least <span id="minTeams"></span> teams to start a season.  Click the 'Create Team' button to get started!
+      </div>
+    </div>
+
+    <!-- start season button -->
+    <div class="row-fluid">
+      <div id="startSeason" class="span12">
+        <a class="btn btn-primary btn-large" href="#seasonModal" data-toggle="modal">Start Season!</a>
+      </div>
+    </div>
+
+    <!-- team form modal -->
+    <div id="teamModal" class="modal hide fade">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick='$("#teamForm input").val("");'>&times;</button>
+        <h3>Team Information</h3>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-info formInfoAlert">
+          Hover over the input fields for instructions.
+        </div>
+        <form id="teamForm" class="form-horizontal">
+          <div class="control-group">
+            <label class="control-label" for="teamName">Team Name</label>
+            <div class="controls">
+              <input id="teamName" type="text" name="teamName" placeholder="Ex. Milwaukee Beers" required="required" data-content="Enter your team name." maxlength="25" />
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="firstName">Manager's First Name</label>
+            <div class="controls">
+              <input id="firstName" type="text" name="firstName" placeholder="Ex. Joe" required="required" data-content="Enter your manager's first name." maxlength="25" />
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="lastName">Manager's Last Name</label>
+            <div class="controls">
+              <input id="lastName" type="text" name="lastName" placeholder="Ex. Cooper" required="required" data-content="Enter your manager's last name." maxlength="25" />
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="phone">Phone Number</label>
+            <div class="controls">
+              <input id="phone" type="tel" name="phone" placeholder="Ex. 555-555-BEER" required="required" data-content="Enter a 10-digit US phone number." maxlength="14" pattern="\(?(\d{3})\)?[ -.](\d{3})[ -.](\d{4})" />
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="sponsor">Team Sponsor</label>
+            <div class="controls">
+              <input id="sponsor" type="text" name="sponsor" placeholder="Ex. Milwaukee's Best" required="required" data-content="Enter the name of your team sponsor." maxlength="25" />
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="zip">Zip Code</label>
+            <div class="controls">
+              <input id="zip" type="text" name="zip" placeholder="Ex. 53201" required="required" data-content="Enter a 5 or 9-digit US zip code." pattern="\d{5}(-\d{4})?" maxlength="10" />
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button id="createTeam" class="btn btn-primary" type="submit" aria-hidden="true" form="teamForm">Submit</button>
+        
+        <button id="closePlease"class="btn" data-dismiss="modal" aria-hidden="true" onclick='$("#teamForm input").val("");'>Close</button>
+      
+      </div>
+    </div><!-- end #teamModal -->
+
+    <!-- score form modal -->
+    <div id="scoreModal" class="modal hide fade">
+      <div class="modal-header">
+        
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="
+        true" onclick='$("#teamForm input").val("");'>&times;</button>
+        
+
+        <h3>Report Score</h3>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-info formInfoAlert">
+          Click on the input fields to enter scores.
+        </div>
+        <form id="scoreForm">
+          <h4 id="marquee"></h4>
+          <input id="homeScore" type="text" name="homeScore" required="required" maxlength="3" pattern="\d{1,3}" />&mdash;<input id="awayScore" type="text" name="awayScore" required="required" maxlength="3" pattern="\d{1,3}" />
+        </form>
+        <div id="tieErrorAlert" class="alert alert-error">
+          There are no ties in Beer League!
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="reportScore" class="btn btn-primary" type="submit" aria-hidden="true" form="scoreForm">Submit</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
+    </div><!-- end #scoreModal -->
+
+    <!-- start season modal -->
+    <div id="seasonModal" class="modal hide fade">
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4>Are you ready to start the season?</h4>
+        <p class="text-error">You will not be able to edit any team information<br />once the season begins.</p>
+        <button id="seasonSubmit" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Yes, I'm ready.</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">No, not yet.</button>
+      </div>
+    </div><!-- end #seasonModal -->
+
+    <!-- reset season modal -->
+    <div id="resetModal" class="modal hide fade">
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4>Are you sure you want to reset the season?</h4>
+        <p class="text-error">This will erase any teams you have created,<br />as well as any scores you have reported.</p>
+        <button id="resetSeason" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Yes, I'm sure.</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">No way, man!</button>
+         <button id="resetSeasonButKeepTeamInfo" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">We want to play again!</button>
+      </div>
+    </div><!-- end #resetModal -->
+
+  </div><!-- end .container -->
+</body>
+</html>
